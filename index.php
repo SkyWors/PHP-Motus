@@ -1,6 +1,11 @@
 <?php
 
-$word = "ecran";
+include __DIR__ . "/utils/check.php";
+include __DIR__ . "/utils/clear.php";
+include __DIR__ . "/utils/display.php";
+
+$words = json_decode(file_get_contents(__DIR__ . "/words.json"), false);
+$word = strtoupper($words[array_rand($words)]);
 $wordArray = str_split($word);
 
 $resultArray = array();
@@ -13,25 +18,17 @@ array_push($resultArray, $display);
 
 while (1) {
 	clear();
-
 	display($resultArray);
 
 	if (end($resultArray) == $word) {
-		echo "finish.";
 		exit;
 	}
 
-	echo "\n\n";
 	do {
 		$input = fopen("php://stdin","r");
-		$line = fgets($input);
+		$line = strtoupper(fgets($input));
 		$line = preg_replace('/[^A-Za-z0-9\-]/', '', $line);
 	} while (strlen($line) != strlen($word));
-
-	if ($line == $word) {
-		echo "finish.";
-		exit;
-	}
 
 	$lineArray = str_split($line);
 
@@ -51,45 +48,4 @@ while (1) {
 	}
 
 	array_push($resultArray, join($check));
-}
-
-function display($resultArray) {
-	foreach ($resultArray as $value) {
-		foreach (str_split($value) as $letter) {
-			if ($letter == 0) {
-				echo "_";
-			}
-			elseif ($letter == 1) {
-				echo ".";
-			} else {
-				echo $letter;
-			}
-		}
-		echo "\n";
-	}
-}
-
-function check($word, $wordArray, $inputArray) {
-	$result = array();
-	for ($i = 0; $i < count($wordArray); $i++) {
-		array_push($result, 0);
-	}
-
-	for ($i = 0; $i < count($wordArray); $i++) {
-		if (str_contains($word, $inputArray[$i])) {
-			$result[$i] = 1;
-		}
-
-		if ($wordArray[$i] == $inputArray[$i]) {
-			$result[$i] = 2;
-		}
-	}
-
-	return $result;
-}
-
-function clear() {
-	for ($i = 0; $i < 3; $i++) {
-		echo "\n";
-	}
 }
