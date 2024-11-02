@@ -18,9 +18,9 @@ class Motus {
 		$this->word = $word;
 
 		$temp = array();
-		array_push($temp, substr($word, 0, 1));
+		array_push($temp, mb_substr($word, 0, 1));
 
-		for ($i = 1; $i < strlen($word); $i++) {
+		for ($i = 1; $i < mb_strlen($word); $i++) {
 			array_push($temp, "0");
 		}
 
@@ -38,8 +38,8 @@ class Motus {
 	 */
 	public function check($input) {
 		$result = array();
-		$wordArray = str_split($this->word);
-		$inputArray = str_split($input);
+		$wordArray = mb_str_split($this->word);
+		$inputArray = mb_str_split($input);
 
 		for ($i = 0; $i < count($wordArray); $i++) {
 			array_push($result, 0);
@@ -68,7 +68,7 @@ class Motus {
 	 * @return boolean
 	 */
 	public function checkLength($input) {
-		return strlen($input) == strlen($this->word) ? true : false;
+		return mb_strlen($input) == mb_strlen($this->word) ? true : false;
 	}
 
 	/**
@@ -111,12 +111,12 @@ class Motus {
 	 */
 	private function translate($input) {
 		$result = array();
-		$wordArray = str_split($this->word);
+		$wordArray = mb_str_split($this->word);
 		$lastWord = end($this->board);
 		$i = 0;
 
 		foreach ($input as $value) {
-			foreach (str_split($value) as $char) {
+			foreach (mb_str_split($value) as $char) {
 				if ($char == 0) {
 					array_push($result, "_");
 				}
@@ -131,13 +131,32 @@ class Motus {
 
 		if ($lastWord != null) {
 			for ($j = 0; $j < count($lastWord); $j++) {
-				if (ctype_alpha($lastWord[$j])) {
+				if ($lastWord[$j] != "_" && $lastWord[$j] != ".") {
 					$result[$j] = $lastWord[$j];
 				}
 			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Check if word exist
+	 *
+	 * @author Erick Paoletti <erick.paoletti@gmail.com>
+	 *
+	 * @return boolean
+	 */
+	public function isWord($input) {
+		$post = curl_init('https://languagetool.org/api/v2/check');
+		curl_setopt($post, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($post, CURLOPT_POSTFIELDS, http_build_query(["text" => $input, "language" => "fr"]));
+		$response = curl_exec($post);
+		curl_close($post);
+
+		$result = json_decode($response, true);
+
+		return empty($result['matches']) ? true : false;
 	}
 
 	/**

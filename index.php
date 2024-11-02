@@ -4,10 +4,12 @@ include __DIR__ . "/utils/clear.php";
 include __DIR__ . "/class/Motus.php";
 
 $words = json_decode(file_get_contents(__DIR__ . "/words.json"), false);
-$word = strtoupper($words[array_rand($words)]);
+$word = $words[array_rand($words)];
 $motus = new Motus($word);
 
+$try = 1;
 while (1) {
+	echo "Essai $try/6\n";
 	$motus->display();
 
 	if ($motus->isFinish()) {
@@ -15,15 +17,24 @@ while (1) {
 		exit;
 	}
 
+	if ($try > 5) {
+		echo "Le mot \"$word\" n'a pas été trouvé.\n";
+		exit;
+	}
+
 	$input = fopen("php://stdin","r");
-	$line = strtoupper(fgets($input));
-	$line = preg_replace('/[^A-Z\-]/', '', $line);
+	$line = strtolower(trim(fgets($input)));
 
 	clear();
 
 	if (!$motus->checkLength($line)) {
-		echo "Le nombre de charactère ne correpond pas.\n";
+		echo "Le nombre de charactère ne correspond pas.\n";
 	} else {
-		$motus->check($line);
+		if ($motus->isWord($line)) {
+			$motus->check($line);
+			$try++;
+		} else {
+			echo "L'entrée saisie n'est pas un mot valide.\n";
+		}
 	}
 }
