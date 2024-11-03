@@ -120,8 +120,7 @@ class Motus {
 			foreach (mb_str_split($value) as $char) {
 				if ($char == 0) {
 					array_push($result, "_");
-				}
-				elseif ($char == 1) {
+				} elseif ($char == 1) {
 					array_push($result, ".");
 				} else {
 					array_push($result, $wordArray[$i]);
