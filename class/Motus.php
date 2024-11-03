@@ -80,10 +80,11 @@ class Motus {
 	 */
 	public function display() {
 		foreach ($this->board as $value) {
-			foreach ($value as $char) {
-				echo "$char";
+			$result = mb_strtoupper($value[0]);
+			for ($i = 1; $i < count($value); $i++) {
+				$result .= $value[$i];
 			}
-			echo "\n";
+			echo $result . "\n";
 		}
 	}
 
