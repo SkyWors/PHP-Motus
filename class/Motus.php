@@ -1,5 +1,7 @@
 <?php
 
+namespace Motus;
+
 class Motus {
 
 	private $word = null;

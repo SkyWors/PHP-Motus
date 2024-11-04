@@ -1,7 +1,10 @@
 <?php
 
-include __DIR__ . "/utils/clear.php";
-include __DIR__ . "/class/Motus.php";
+require __DIR__ . "/vendor/autoload.php";
+require __DIR__ . "/utils/clear.php";
+
+use
+	Motus\Motus;
 
 $words = json_decode(file_get_contents(__DIR__ . "/words.json"), false);
 $word = $words[array_rand($words)];
