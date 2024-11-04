@@ -2,8 +2,8 @@
 
 class Motus {
 
-	public $word = null;
-	public $board = array();
+	private $word = null;
+	private $board = array();
 
 	/**
 	 * Main motus object class
@@ -82,7 +82,7 @@ class Motus {
 		foreach ($this->board as $value) {
 			$result = mb_strtoupper($value[0]);
 			for ($i = 1; $i < count($value); $i++) {
-				$result .= $value[$i];
+				$result .= " " . $value[$i];
 			}
 			echo $result . "\n";
 		}
@@ -152,6 +152,9 @@ class Motus {
 		curl_setopt($post, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($post, CURLOPT_POSTFIELDS, http_build_query(["text" => $input, "language" => "fr"]));
 		$response = curl_exec($post);
+		if (curl_errno($post)) {
+			echo "API error: " . curl_error($post) . "\n";
+		}
 		curl_close($post);
 
 		$result = json_decode($response, true);

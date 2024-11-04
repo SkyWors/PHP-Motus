@@ -22,8 +22,7 @@ while (1) {
 		exit;
 	}
 
-	$input = fopen("php://stdin", "r");
-	$line = strtolower(trim(fgets($input)));
+	$line = strtolower(trim(fgets(STDIN)));
 
 	clear();
 
