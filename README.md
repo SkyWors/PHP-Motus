@@ -15,7 +15,7 @@ Input a word and press enter.
 
 > Word can be format with any upper or lower case, make sure to <u>correctly write potential accents</u> according to french dictionnary.
 
-```json
+```
 Example:
 
 	Search word is "Hôpital"
@@ -72,3 +72,11 @@ Choose between simple *(BOLD = 0)* or complex *(BOLD = 1)*
 ### 🚧 Development
 
 Enable DEBUG key to display some usefull logs.
+
+## Unit tests
+
+> [!WARNING]
+> Make sure to have [composer](#-requirements) installed and [initialized](#-installation).
+
+Use ``composer test`` on any terminal open in project's root folder to test program's functions.
+
