@@ -13,13 +13,16 @@ enum Color : string {
 	case RESET = "\033[0m";
 	case RED = "\e[31m";
 	case GREEN = "\e[32m";
-	case YELLOW = "\e[33m";
 	case CYAN = "\e[36m";
+	case RED_BG = "\033[41m";
+	case BOLD = "\e[1m";
 }
 
 if ($_ENV["WORD"] == "list") {
 	$words = json_decode(file_get_contents(__DIR__ . "/data/words.json"), false);
 	$word = $words[array_rand($words)];
+} else {
+	$word = Utils::randomWord("fr");
 }
 
 $motus = new Motus(word: $word);
@@ -36,9 +39,10 @@ while (true) {
 	}
 
 	if ($motus->isBoardEmpty()) {
-		echo "\n " . Color::RED->value . mb_strtoupper(mb_substr($word, 0, 1)) . Color::RESET->value;
+		$color = $_ENV["BOLD"] ? Color::RED_BG->value : Color::RED->value;
+		echo "\n " . $color . Color::BOLD->value . mb_strtoupper(mb_substr($word, 0, 1)) . " " . Color::RESET->value;
 		for ($i = 1; $i < mb_strlen($word); $i++) {
-			echo " _";
+			echo "_ ";
 		}
 		echo "  (" . mb_strlen($word) . ")\n\n";
 	}

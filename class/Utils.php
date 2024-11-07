@@ -33,4 +33,28 @@ class Utils {
 			return "s";
 		}
 	}
+
+
+	/**
+	 * Return random word
+	 *
+	 * @param string $lang Word language
+	 *
+	 * @author Erick Paoletti <erick.paoletti@gmail.com>
+	 *
+	 * @return string
+	 */
+	public static function randomWord(string $lang) : string {
+		$get = curl_init("https://random-word-api.herokuapp.com/word?lang=$lang");
+		curl_setopt($get, CURLOPT_RETURNTRANSFER, true);
+		$response = curl_exec($get);
+		if (curl_errno($get)) {
+			echo "API error: " . curl_error($get) . "\n";
+		}
+		curl_close($get);
+
+		$result = json_decode($response, true);
+
+		return $result[0] ?? null;
+	}
 }

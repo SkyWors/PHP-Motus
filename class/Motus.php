@@ -5,9 +5,10 @@ namespace Motus;
 enum Color : string {
 	case RESET = "\033[0m";
 	case RED = "\e[31m";
-	case GREEN = "\e[32m";
 	case YELLOW = "\e[33m";
-	case CYAN = "\e[36m";
+	case RED_BG = "\033[41m";
+	case YELLOW_BG = "\033[43m";
+	case BOLD = "\e[1m";
 }
 
 class Motus {
@@ -141,22 +142,27 @@ class Motus {
 		$tempWordArray = $wordArray;
 		$lineArray = mb_str_split($word);
 
-		$result .= Color::RED->value . mb_strtoupper($wordArray[0]) . " ";
+		$colorRed = $_ENV["BOLD"] ? Color::RED_BG->value : Color::RED->value;
+		$colorYellow = $_ENV["BOLD"] ? Color::YELLOW_BG->value : Color::YELLOW->value;
+
+
+		$result .= $colorRed . Color::BOLD->value . mb_strtoupper($wordArray[0]) . " ";
 		unset($tempWordArray[0]);
 		for ($i = 1; $i < count($wordArray); $i++) {
 			if ($wordArray[$i] === $lineArray[$i]) {
-				$result .= Color::RED->value . $wordArray[$i] . " ";
+				$result .= $colorRed . Color::BOLD->value . $wordArray[$i] . " ";
 				unset($tempWordArray[array_search($lineArray[$i], $tempWordArray)]);
 			} else {
 				if (in_array($lineArray[$i], $tempWordArray)) {
-					$result .= Color::YELLOW->value . $lineArray[$i] . " ";
+					$result .= $colorYellow . Color::BOLD->value . $lineArray[$i] . " ";
 					unset($tempWordArray[array_search($lineArray[$i], $tempWordArray)]);
 				} else {
-					$result .= Color::RESET->value . $lineArray[$i] . " ";
+					$result .= Color::RESET->value . Color::BOLD->value . $lineArray[$i] . " ";
+					unset($tempWordArray[array_search($lineArray[$i], $tempWordArray)]);
 				}
 			}
 		}
 
-		return $result;
+		return $result . Color::RESET->value;
 	}
 }
