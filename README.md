@@ -1,9 +1,9 @@
-# PHP-Motus
+# ⭐ PHP-Motus
 
 > [!NOTE]
 > This is an incredible reproduction of the famous french TV game called "Motus"!
 
-## How to play?
+## 📌 How to play?
 
 1. <u>Run the game</u>
 
@@ -16,13 +16,12 @@ Input a word and press enter.
 > Word can be format with any upper or lower case, make sure to <u>correctly write potential accents</u> according to french dictionnary.
 
 ```
-Example:
+Example: search word is "Hôpital"
 
-	Search word is "Hôpital"
-
-	Input "hôpital" will be correct,
-	Input "HôpItAL" will be correct,
-	Input "Hopital" will be incorrect.
+	✅ Input "hôpital" will be correct,
+	✅ Input "HôpItAL" will be correct,
+	✅ Input "  H ô  pi tal" will be correct.
+	❌ Input "Hopital" will be incorrect.
 ```
 
 3. <u>Understand display</u>
@@ -49,7 +48,7 @@ Use `composer install` on any terminal open in project's root folder.
 
 Rename `.env.example` to `.env`
 
-> *See [Settings](#-settings) for more explanations*.
+> *See [Settings](#️-settings) for more explanations*.
 
 ## ⚙️ Settings
 

@@ -47,7 +47,7 @@ while (true) {
 		echo "  (" . mb_strlen($word) . ")\n\n";
 	}
 
-	$line = strtolower(trim(fgets(STDIN)));
+	$line = strtolower(str_replace(" ", "", trim(fgets(STDIN))));
 
 	if ($motus->checkLength(input: $line)) {
 		if ($motus->checkFirstLetter(input: $line)) {
