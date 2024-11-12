@@ -88,7 +88,7 @@ class Motus {
 	 * @return boolean
 	 */
 	public function isWord(string $input) : bool {
-		$post = curl_init('https://languagetool.org/api/v2/check');
+		$post = curl_init("https://languagetool.org/api/v2/check");
 		curl_setopt($post, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($post, CURLOPT_POSTFIELDS, http_build_query(["text" => $input, "language" => "fr"]));
 		$response = curl_exec($post);
@@ -99,7 +99,7 @@ class Motus {
 
 		$result = json_decode($response, true);
 
-		return empty($result['matches']) ? true : false;
+		return empty($result["matches"]) ? true : false;
 	}
 
 	/**
@@ -144,7 +144,6 @@ class Motus {
 
 		$colorRed = $_ENV["BOLD"] ? Color::RED_BG->value : Color::RED->value;
 		$colorYellow = $_ENV["BOLD"] ? Color::YELLOW_BG->value : Color::YELLOW->value;
-
 
 		$result .= $colorRed . Color::BOLD->value . mb_strtoupper($wordArray[0]) . " ";
 		unset($tempWordArray[0]);

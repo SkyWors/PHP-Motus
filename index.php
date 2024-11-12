@@ -34,7 +34,7 @@ while (true) {
 	$motus->display();
 
 	if ($try === $_ENV["TRY"] +1) {
-		echo Color::RED->value . "Le mot \"$word\" n'a pas été trouvé.\n\n";
+		echo Color::RED->value . "Le mot \"$word\" n'a pas été trouvé.\n\n" . Color::RESET->value;
 		exit;
 	}
 
@@ -49,30 +49,27 @@ while (true) {
 
 	$line = strtolower(str_replace(" ", "", trim(fgets(STDIN))));
 
-	if ($motus->checkLength(input: $line)) {
-		if ($motus->checkFirstLetter(input: $line)) {
-			if ($motus->isWord(input: $line)) {
-				$motus->input(input: $line);
-
-				Utils::clear();
-
-				if ($motus->isFinish()) {
-					$motus->display();
-
-					echo Color::GREEN->value . "Le mot \"$word\" a été trouvé en $try essai" . Utils::plural($try) . " !\n\n" . Color::RESET->value;
-					exit;
-				}
-				$try++;
-			} else {
-				Utils::clear();
-				echo Color::CYAN->value . "L'entrée saisie n'est pas un mot valide.\n\n" . Color::RESET->value;
-			}
-		} else {
-			Utils::clear();
-			echo Color::CYAN->value . "Le mot saisi ne commence pas par la lettre \"" . mb_strtoupper(mb_substr($word, 0, 1)) . "\".\n\n" . Color::RESET->value;
-		}
-	} else {
-		Utils::clear();
+	Utils::clear();
+	if (!$motus->checkLength(input: $line)) {
 		echo Color::CYAN->value . "Le nombre de charactère ne correspond pas.\n\n" . Color::RESET->value;
+		continue;
 	}
+	if (!$motus->checkFirstLetter(input: $line)) {
+		echo Color::CYAN->value . "Le mot saisi ne commence pas par la lettre \"" . mb_strtoupper(mb_substr($word, 0, 1)) . "\".\n\n" . Color::RESET->value;
+		continue;
+	}
+	if (!$motus->isWord(input: $line)) {
+		echo Color::CYAN->value . "L'entrée saisie n'est pas un mot valide.\n\n" . Color::RESET->value;
+		continue;
+	}
+
+	$motus->input(input: $line);
+
+	if ($motus->isFinish()) {
+		$motus->display();
+
+		echo Color::GREEN->value . "Le mot \"$word\" a été trouvé en $try essai" . Utils::plural($try) . " !\n\n" . Color::RESET->value;
+		exit;
+	}
+	$try++;
 }

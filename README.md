@@ -3,6 +3,23 @@
 > [!NOTE]
 > This is an incredible reproduction of the famous french TV game called "Motus"!
 
+## 🔗 Table of contents
+
+- [How to play?](#-how-to-play)
+	- Run the game
+	- Input a word
+	- Understand display
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+	- Modules
+	- Parameters
+- [Settings](#️-settings)
+	- Word
+	- Try
+	- Background
+	- Development
+- [Unit tests](#-unit-tests)
+
 ## 📌 How to play?
 
 1. <u>Run the game</u>
@@ -11,7 +28,7 @@ Use ``php index.php`` on any terminal open in project's root folder.
 
 2. <u>Input a word</u>
 
-Input a word and press enter.
+Input a **french word** that **start with the display letter** and have the **correct character number**, then press enter.
 
 > Word can be format with any upper or lower case, make sure to <u>correctly write potential accents</u> according to french dictionnary.
 
@@ -22,6 +39,9 @@ Example: search word is "Hôpital"
 	✅ Input "HôpItAL" will be correct,
 	✅ Input "  H ô  pi tal" will be correct.
 	❌ Input "Hopital" will be incorrect.
+	❌ Input "abcdefg" will be incorrect.
+	❌ Input "Serpent" will be incorrect.
+	❌ Input "Anticonstitutionnellement" will be incorrect.
 ```
 
 3. <u>Understand display</u>
@@ -72,10 +92,9 @@ Choose between simple *(BOLD = 0)* or complex *(BOLD = 1)*
 
 Enable DEBUG key to display some usefull logs.
 
-## Unit tests
+## 🤖 Unit tests
 
 > [!WARNING]
 > Make sure to have [composer](#-requirements) installed and [initialized](#-installation).
 
 Use ``composer test`` on any terminal open in project's root folder to test program's functions.
-

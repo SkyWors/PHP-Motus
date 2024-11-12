@@ -12,7 +12,7 @@ class Utils {
 	 * @return void
 	 */
 	public static function clear() : void {
-		for ($i = 0; $i < 10; $i++) {
+		for ($i = 0; $i < 20; $i++) {
 			echo "\n";
 		}
 	}
@@ -33,7 +33,6 @@ class Utils {
 			return "s";
 		}
 	}
-
 
 	/**
 	 * Return random word
