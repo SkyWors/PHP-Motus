@@ -150,12 +150,12 @@ class Motus {
 		$colorRed = $_ENV["BOLD"] ? Color::RED_BG->value : Color::RED->value;
 		$colorYellow = $_ENV["BOLD"] ? Color::YELLOW_BG->value : Color::YELLOW->value;
 
-		$result[0] = $colorRed . Color::BOLD->value . mb_strtoupper($wordArray[0]) . Color::RESET->value ." ";
+		$result[0] = $colorRed . Color::BOLD->value . mb_strtoupper($wordArray[0]) . " " . Color::RESET->value;
 		unset($tempWordArray[0]);
 
 		for ($i = 1; $i < count($wordArray); $i++) {
 			if ($wordArray[$i] === $lineArray[$i]) {
-				$result[$i] = $colorRed . Color::BOLD->value . $wordArray[$i] . Color::RESET->value . " ";
+				$result[$i] = $colorRed . Color::BOLD->value . $wordArray[$i] . " " . Color::RESET->value;
 				$tempWordArray[$i] = " ";
 			}
 		}
@@ -163,7 +163,7 @@ class Motus {
 		for ($i = 1; $i < count($wordArray); $i++) {
 			if (in_array($lineArray[$i], $tempWordArray)) {
 				if ($tempWordArray[$i] != " ") {
-					$result[$i] = $colorYellow . Color::BOLD->value . $lineArray[$i] . Color::RESET->value . " ";
+					$result[$i] = $colorYellow . Color::BOLD->value . $lineArray[$i] . " " . Color::RESET->value;
 					$tempWordArray[array_search($lineArray[$i], $tempWordArray)] = " ";
 				}
 			}
