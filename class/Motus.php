@@ -164,7 +164,7 @@ class Motus {
 			if (in_array($lineArray[$i], $tempWordArray)) {
 				if ($tempWordArray[$i] != " ") {
 					$result[$i] = $colorYellow . Color::BOLD->value . $lineArray[$i] . " " . Color::RESET->value;
-					$tempWordArray[array_search($lineArray[$i], $tempWordArray)] = " ";
+					$tempWordArray[array_search($lineArray[$i], $tempWordArray)] = "\t";
 				}
 			}
 		}
