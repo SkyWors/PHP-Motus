@@ -4,6 +4,7 @@ namespace Motus;
 
 enum Color : string {
 	case RESET = "\033[0m";
+	case GRAY = "\e[30m";
 	case RED = "\e[31m";
 	case YELLOW = "\e[33m";
 	case RED_BG = "\033[41m";
@@ -88,6 +89,8 @@ class Motus {
 	 * @return boolean
 	 */
 	public function isWord(string $input) : bool {
+		echo Color::GRAY->value . "Validation du mot en cours..." . Color::RESET->value;
+
 		$post = curl_init("https://languagetool.org/api/v2/check");
 		curl_setopt($post, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($post, CURLOPT_POSTFIELDS, http_build_query(["text" => $input, "language" => "fr"]));
@@ -124,7 +127,6 @@ class Motus {
 		foreach ($this->board as $word) {
 			echo " " . $this->translate($word) . "\n";
 		}
-		echo "\n";
 	}
 
 	/**
@@ -137,31 +139,36 @@ class Motus {
 	 * @return string
 	 */
 	private function translate(string $word) : string {
-		$result = "";
 		$wordArray = mb_str_split($this->word);
 		$tempWordArray = $wordArray;
 		$lineArray = mb_str_split($word);
+		$result = [];
+		foreach ($lineArray as $char) {
+			array_push($result, $char . " ");
+		}
 
 		$colorRed = $_ENV["BOLD"] ? Color::RED_BG->value : Color::RED->value;
 		$colorYellow = $_ENV["BOLD"] ? Color::YELLOW_BG->value : Color::YELLOW->value;
 
-		$result .= $colorRed . Color::BOLD->value . mb_strtoupper($wordArray[0]) . " ";
+		$result[0] = $colorRed . Color::BOLD->value . mb_strtoupper($wordArray[0]) . Color::RESET->value ." ";
 		unset($tempWordArray[0]);
+
 		for ($i = 1; $i < count($wordArray); $i++) {
 			if ($wordArray[$i] === $lineArray[$i]) {
-				$result .= $colorRed . Color::BOLD->value . $wordArray[$i] . " ";
-				unset($tempWordArray[array_search($lineArray[$i], $tempWordArray)]);
-			} else {
-				if (in_array($lineArray[$i], $tempWordArray)) {
-					$result .= $colorYellow . Color::BOLD->value . $lineArray[$i] . " ";
-					unset($tempWordArray[array_search($lineArray[$i], $tempWordArray)]);
-				} else {
-					$result .= Color::RESET->value . Color::BOLD->value . $lineArray[$i] . " ";
-					unset($tempWordArray[array_search($lineArray[$i], $tempWordArray)]);
+				$result[$i] = $colorRed . Color::BOLD->value . $wordArray[$i] . Color::RESET->value . " ";
+				$tempWordArray[$i] = " ";
+			}
+		}
+
+		for ($i = 1; $i < count($wordArray); $i++) {
+			if (in_array($lineArray[$i], $tempWordArray)) {
+				if ($tempWordArray[$i] != " ") {
+					$result[$i] = $colorYellow . Color::BOLD->value . $lineArray[$i] . Color::RESET->value . " ";
+					$tempWordArray[array_search($lineArray[$i], $tempWordArray)] = " ";
 				}
 			}
 		}
 
-		return $result . Color::RESET->value;
+		return join($result) . Color::RESET->value;
 	}
 }
